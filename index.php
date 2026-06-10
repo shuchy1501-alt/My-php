@@ -1,435 +1,135 @@
-       <?php
-       include_once "layout/header.php"
-       ?>
-       
-        <!-- Hero Section -->
-        <section class="hero-modern">
-            <div class="container">
-                <div class="row align-items-center">
+<?php
+include_once("Student.php");
+$data=[];
+if(isset($_GET["btn_submit"])){
+    $id= $_GET["sid"];
+    $data = Student::find($id) ?? [];
+    
+    
+   
+}
 
-                    <!-- LEFT TEXT -->
-                    <div class="col-md-6">
+if(isset($_GET["id"])){
+    $id= $_GET["id"];
 
-                        <h1 class="hero-title">
-                            Professional & Modern Dental Care
-                        </h1>
+    $data= Student::delete($id);
 
-                        <p class="hero-desc">
-                            High-quality dental treatments, advanced technology,
-                            and a caring
-                            medical team — helping you achieve a healthy,
-                            confident smile.
-                        </p>
+    echo $data;
+    
+}
 
-                        <div class="d-flex gap-3 mt-3">
-                            <a class="btn hero-btn px-4">View
-                                Services</a>
-                        </div>
 
-                        <!-- Rating Box -->
-                        <div class="hero-rating mt-4">
-                            <span class="rating-value">4.9★</span>
-                            <span class="rating-text">Patient Satisfaction
-                                Rating</span>
-                        </div>
+?>
 
-                    </div>
+<!DOCTYPE html>
+<html lang="en">
 
-                    <!-- RIGHT IMAGE -->
-                    <div class="col-md-6 position-relative">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
+</head>
 
-                        <!-- Doctor or Smile Image -->
-                        <img src="img/heroimg.png"
-                            class="hero-img" />
+<body>
+    <div class="container">
+         <a class="btn btn-secondary" href="createStudent.php">Create Student</a>
+        <div class="row">
+            <div class="col-md-8">
+                <h1>All Students</h1>
 
-                    </div>
+                 <table class="table table-striped">
+                    <thead>
+                         <tr>
+                             <th>Id</th>
+                             <th>Name</th>
+                             <th>Email</th>
+                             <th>Gender</th>
+                             <th>Mobile</th>
+                             <th>Action</th>
+                         </tr>
+                    </thead>
 
-                </div>
-            </div>
-        </section>
-        <!-- Appointment Bar Section -->
-        <section class="container appointment-bar">
+                    <tbody>
+                     <?php
+                      $students= Student::all();
+                     
+                      foreach($students as $student){
+                       list($id, $name,$email,$gender,$mobile)= explode(",", $student);
 
-            <div class="row g-4 align-items-end">
+                       echo "
+                       
+                        <tr>
+                             <td>$id</td>
+                             <td>$name</td>
+                             <td>$email</td>
+                             <td>$gender</td>
+                             <td>$mobile</td>
+                             <td>
+                                <a class='btn btn-info' href='update.php?id=$id'>Edit</a>
+                                <a onclick='return confirm(`are you sure`)' class='btn btn-danger' href='index.php?id=$id'>Delete</a>
+                             </td>
+                         </tr>
+                       
+                       
+                       ";
+                      }
+                      
+                  
 
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Name</label>
-                    <input type="text" class="form-control form-field"
-                        placeholder="Your Name">
-                </div>
+                     ?>
+                    </tbody>
+                 </table>
 
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Email</label>
-                    <input type="email" class="form-control form-field"
-                        placeholder="Your Email">
-                </div>
 
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Service</label>
-                    <select class="form-select form-field">
-                        <option>Select Service</option>
-                        <option>Dental Cleaning</option>
-                        <option>Dental Implants</option>
-                        <option>Orthodontics</option>
-                        <option>Cosmetic Dentistry</option>
-                    </select>
-                </div>
 
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Date</label>
-                    <input type="date" class="form-control form-field">
-                </div>
 
-                <div class="col-md-3 d-flex align-items-end">
-                    <button class="btn make-btn w-100">
-                        Make Appointment
-                    </button>
-                </div>
 
-            </div>
-
-        </section>
-
-        <!-- Features Section -->
-        <section class="container py-5 features-grid" data-aos="fade-up">
-
-            <div class="row g-4">
-
-                <div class="col-md-4 feature-col" data-aos="fade-up"
-                    data-aos-delay="200">
-                    <div class="feature-item">
-                        <i class="bi bi-stars feature-icon"></i>
-                        <h5>Advanced Dental Cleaning</h5>
-                        <p>Comfortable & safe ultrasonic cleaning treatment.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4 feature-col" data-aos="fade-up"
-                    data-aos-delay="300">
-                    <div class="feature-item">
-                        <i class="bi bi-person-lines-fill feature-icon"></i>
-                        <h5>Free Consultation Visit</h5>
-                        <p>Initial check-up & treatment planning included.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4 feature-col " data-aos="fade-up"
-                    data-aos-delay="400">
-                    <div class="feature-item">
-                        <i class="bi bi-search-heart feature-icon"></i>
-                        <h5>Preventive Check-Up</h5>
-                        <p>Diagnostic exam + oral hygiene guidance.</p>
-                    </div>
-                </div>
-
+               
             </div>
 
-        </section>
-        <!-- Testimonial Section -->
-        <section class="container my-5" data-aos="fade-right">
+             <div class="col-md-4">
+                  <h3>Search Student</h3>
+                 <form action="#" method="get">
+                     <input type="text" name="sid" id="id">
+                     <input type="submit" name="btn_submit" id="">
+                 </form>
 
-            <div class="row align-items-center testimonial-box">
+               
+                  <?php echo is_array($data) && count($data) > 0 ? "" : "Data Not found"; ?>
+                  <table class="table">
+                      <tr> 
+                         <th>ID</th>
+                         <th> <?php echo  $data["sid"]?? "" ?></th>
+                      </tr>
+                      <tr> 
+                         <th>Name</th>
+                         <th><?php echo  $data["name"]?? "" ?></th>
+                      </tr>
+                      <tr> 
+                         <th>Email</th>
+                         <th><?php echo  $data["email"]?? "" ?></th>
+                      </tr>
+                      <tr> 
+                         <th>Gender</th>
+                         <th><?php echo  $data["gender"]?? "" ?></th>
+                      </tr>
+                      <tr> 
+                         <th>Phone</th>
+                         <th><?php echo  $data["mobile"]?? "" ?></th>
+                      </tr>
+                  </table>
+             </div>
+        </div>
 
-                <!-- الصورة -->
-                <div class="col-md-6">
-                    <img src="img/testimonialimg.jpg"
-                        class="testimonial-img" data-aos="fade-left">
-                </div>
+    </div>
 
-                <!-- محتوى الريفيو -->
-                <div class="col-md-6 testimonial-content">
 
-                    <span class="tag">Testimonial</span>
 
-                    <h3 class="fw-bold mb-2">What Customer Says</h3>
 
-                    <div class="quote-icon">❝</div>
 
-                    <p class="testimonial-text">
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua."
-                    </p>
 
-                    <div class="review-person">
-                        <img src="img/pro.jpg" class="review-avatar">
-                        <div>
-                            <h6 class="m-0 fw-bold">Farah abuassi</h6>
-                            <small class="text-muted">Entrepreneur</small>
-                        </div>
-                    </div>
+</body>
 
-                </div>
-
-            </div>
-
-        </section>
-        <!-- blog section-->
-        <section class="container my-5" data-aos="fade-up">
-
-            <div class="text-center mb-4">
-                <span class="blog-tag">Our Blog</span>
-                <h2 class="fw-bold">Latest Blog & Articles</h2>
-                <p class="text-muted">
-                    We share knowledge & helpful dental care tips for our
-                    patients.
-                </p>
-            </div>
-
-            <div class="row g-4">
-
-                <!-- Blog Item -->
-                <div class="col-md-6">
-                    <div class="blog-card d-flex">
-
-                        <img src="img/blog1.jpg"
-                            class="blog-img">
-
-                        <div class="blog-content">
-                            <h5 class="fw-bold">
-                                5 Reasons Your Children Need Regular Dental
-                                CheckUps
-                            </h5>
-
-                            <small class="text-muted">March 28, 2024</small>
-
-                            <p>
-                                Regular check-ups help prevent cavities and
-                                improve long-term dental health.
-                            </p>
-
-                            <a href="#" class="read-link">Read More →</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Blog Item -->
-                <div class="col-md-6">
-                    <div class="blog-card d-flex">
-
-                        <img
-                            src="img/blog2.jpg"
-                            class="blog-img">
-
-                        <div class="blog-content">
-                            <h5 class="fw-bold">
-                                Everything You Need To Know About a Dead Tooth
-                            </h5>
-
-                            <small class="text-muted">March 28, 2024</small>
-
-                            <p>
-                                Learn the symptoms and treatment options for
-                                nerve-damaged teeth.
-                            </p>
-
-                            <a href="#" class="read-link">Read More →</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Blog Item -->
-                <div class="col-md-6">
-                    <div class="blog-card d-flex">
-
-                        <img src="img/blog3.jpg"
-                            class="blog-img">
-
-                        <div class="blog-content">
-                            <h5 class="fw-bold">
-                                Everything You Want To Know About Cosmetic
-                                Dentistry
-                            </h5>
-
-                            <small class="text-muted">March 28, 2024</small>
-
-                            <p>
-                                Veneers, whitening and smile design — discover
-                                how they work.
-                            </p>
-
-                            <a href="#" class="read-link">Read More →</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Blog Item -->
-                <div class="col-md-6">
-                    <div class="blog-card d-flex">
-
-                        <img src="img/blog4.jpg"
-                            class="blog-img">
-
-                        <div class="blog-content">
-                            <h5 class="fw-bold">
-                                What You Need to Know About Wisdom Teeth
-                            </h5>
-
-                            <small class="text-muted">March 27, 2024</small>
-
-                            <p>
-                                When extraction is necessary and how to reduce
-                                recovery time.
-                            </p>
-
-                            <a href="#" class="read-link">Read More →</a>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-        <!-- Stats Section -->
-        <section class="stats-section py-5">
-
-            <div class="container stats-box">
-                <div class="row text-center">
-
-                    <!-- Happy Patients -->
-                    <div class="col-md-3">
-                        <i class="bi bi-people stats-icon"></i>
-                        <h3 class="counter" data-target="1452">0</h3>
-                        <p class="stats-label">Happy Patients</p>
-                    </div>
-
-                    <!-- Online Appointments -->
-                    <div class="col-md-3">
-                        <i class="bi bi-file-earmark-text stats-icon"></i>
-                        <h3 class="counter" data-target="342">0</h3>
-                        <p class="stats-label">Online Appointments</p>
-                    </div>
-
-                    <!-- Years of Experience -->
-                    <div class="col-md-3">
-                        <i class="bi bi-award stats-icon"></i>
-                        <h3 class="counter" data-target="15">0</h3>
-                        <p class="stats-label">Years of Experience</p>
-                    </div>
-
-                    <!-- Doctors & Staff -->
-                    <div class="col-md-3">
-                        <i class="bi bi-person-badge stats-icon"></i>
-                        <h3 class="counter" data-target="20">0</h3>
-                        <p class="stats-label">Doctors & Staff</p>
-                    </div>
-
-                </div>
-            </div>
-
-        </section>
-        <!--FAQ Section-->
-        <section class="container my-5">
-
-            <div class="text-center mb-4">
-                <span class="faq-tag">FAQ</span>
-                <h2 class="fw-bold">Frequently Asked Questions</h2>
-                <p class="text-muted">
-                    Common questions our patients ask about dental care &
-                    treatments.
-                </p>
-            </div>
-
-            <div class="accordion" id="faqAccordion">
-
-                <!-- Question 1 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button"
-                            data-bs-toggle="collapse" data-bs-target="#q1">
-                            Is teeth whitening safe?
-                        </button>
-                    </h2>
-                    <div id="q1" class="accordion-collapse collapse show"
-                        data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Yes — when performed by a dentist, whitening is safe
-                            and does not damage tooth enamel.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Question 2 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#q2">
-                            How often should I visit the dentist?
-                        </button>
-                    </h2>
-                    <div id="q2" class="accordion-collapse collapse"
-                        data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            We recommend a check-up every 6 months for cleaning
-                            and preventive care.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Question 3 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#q3">
-                            Do dental implants hurt?
-                        </button>
-                    </h2>
-                    <div id="q3" class="accordion-collapse collapse"
-                        data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            The procedure is done under local anesthesia, so
-                            patients usually feel minimal discomfort.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Question 4 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#q4">
-                            How long does braces treatment take?
-                        </button>
-                    </h2>
-                    <div id="q4" class="accordion-collapse collapse"
-                        data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            On average between 12–24 months depending on
-                            alignment and case complexity.
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-        <!-- Call to Action Section -->
-        <section class="cta-section container my-5">
-
-            <div class="cta-box">
-
-                <div>
-                    <h3 class="fw-bold">Ready to Book Your Dental
-                        Appointment?</h3>
-                    <p class="text-light">
-                        Schedule your visit today — our team is happy to assist
-                        you anytime.
-                    </p>
-                </div>
-
-                <a href="#" class="btn cta-btn">
-                    Book Appointment
-                </a>
-
-            </div>
-
-        </section>
-       <?php
-       include_once "layout/footer.php"
-       ?>
-       
+</html>
